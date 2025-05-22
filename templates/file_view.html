@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}{{ file.filename }} - File Sharing App{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+			<div class="card shadow">
+				<div class="card-body">
+					<div class="text-center mb-4">
+						<i class="fas fa-file fa-4x mb-3"></i>
+						<h3 class="card-title">{{ file.filename }}</h3>
+						<p class="text-muted">
+							Size: {{ (file.file_size / 1024 / 1024) | round(2) }} MB<br>
+							Uploaded: {{ file.upload_date.strftime('%Y-%m-%d %H:%M') }}<br>
+							Expires: {{ file.expiry_date.strftime('%Y-%m-%d %H:%M') }}
+						</p>
+					</div>
+
+					<div class="d-grid gap-3">
+						<a href="{{ url_for('download_file', file_id=file.id, download=1) }}"
+								class="btn btn-primary btn-lg">
+							<i class="fas fa-download"></i> Download File
+						</a>
+
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" id="shareLink"
+									value="{{ url_for('download_file', file_id=file.id, _external=True) }}" readonly>
+							<button class="btn btn-outline-secondary" type="button" id="copyLink">
+								<i class="fas fa-copy"></i>
+							</button>
+						</div>
+
+						<button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal"
+								data-bs-target="#shareModal">
+							<i class="fas fa-share-alt"></i> Share via Email
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Share File</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label class="form-label">Share Link</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" id="modalShareLink"
+								value="{{ url_for('download_file', file_id=file.id, _external=True) }}" readonly>
+						<button class="btn btn-outline-secondary" type="button" id="modalCopyLink">
+							<i class="fas fa-copy"></i>
+						</button>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Share via Email</label>
+					<form id="shareEmailForm" class="d-flex gap-2">
+						<input type="email" class="form-control" id="shareEmail" placeholder="Enter email address"
+								required>
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-paper-plane"></i> Send
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+	// Copy link functionality
+	function copyToClipboard(text) {
+		navigator.clipboard.writeText(text).then(() => {
+			const button=event.target.closest('button');
+			const originalHTML=button.innerHTML;
+			button.innerHTML='<i class="fas fa-check"></i>';
+			setTimeout(() => {
+				button.innerHTML=originalHTML;
+			},2000);
+		});
+	}
+
+	document.getElementById('copyLink').addEventListener('click',function() {
+		const shareLink=document.getElementById('shareLink').value;
+		copyToClipboard(shareLink);
+	});
+
+	document.getElementById('modalCopyLink').addEventListener('click',function() {
+		const shareLink=document.getElementById('modalShareLink').value;
+		copyToClipboard(shareLink);
+	});
+
+	// Share via email
+	document.getElementById('shareEmailForm').addEventListener('submit',function(e) {
+		e.preventDefault();
+		const email=document.getElementById('shareEmail').value;
+		const fileId='{{ file.id }}';
+
+		fetch(`/share/${fileId}`,{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({email: email})
+		})
+			.then(response => response.json())
+			.then(data => {
+				if(data.success) {
+					alert('File shared successfully!');
+					document.getElementById('shareEmail').value='';
+					bootstrap.Modal.getInstance(document.getElementById('shareModal')).hide();
+				} else {
+					alert('Failed to share file: '+data.error);
+				}
+			})
+			.catch(error => {
+				alert('Error sharing file: '+error);
+			});
+	});
+</script>
+{% endblock %}

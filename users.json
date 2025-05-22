@@ -1,0 +1,31 @@
+{
+    "users": [
+        {
+            "username": "admin",
+            "email": "admin@admin.com",
+            "password_hash": "pbkdf2:sha256:600000$your_salt_here$your_hash_here",
+            "points": 1000,
+            "is_premium": true,
+            "is_verified": true,
+            "is_admin": true,
+            "profile_picture": "default.jpg"
+        },
+        {
+            "username": "MyUser",
+            "email": "jtoloruntomi@gmail.com",
+            "password_hash": "scrypt:32768:8:1$GnPG0qLohVAlx7dy$8ba959eab994854a946cf368467dd9e5681ccded75f63e3967fc0882f0c636e13eb20abcd9a9b94bdb17c9d401bb5b7a7cfde64047f8a29d11041c5cb9259e06",
+            "points": 378,
+            "is_premium": false,
+            "is_verified": false,
+            "is_admin": false,
+            "profile_picture": "05c1797d-ff6b-4e11-9d56-3c310cace50e_splash_screen_2_.png",
+            "id": 1
+        }
+    ],
+    "settings": {
+        "default_points": 400,
+        "points_per_10mb": 15,
+        "max_file_size_free": 500,
+        "file_expiry_days": 10
+    }
+}

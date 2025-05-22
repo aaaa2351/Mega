@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+	<div class="col-md-8">
+		<div class="card shadow">
+			<div class="card-body text-center">
+				<h1 class="display-4 mb-4">Welcome to File Share!</h1>
+				<p class="lead mb-4">Your secure platform for sharing files with friends and colleagues.</p>
+
+				<div class="row mb-4">
+					<div class="col-md-4">
+						<div class="feature-box p-3">
+							<i class="fas fa-upload fa-3x mb-3 text-primary"></i>
+							<h3>Easy Upload</h3>
+							<p>Drag and drop files up to 500MB for free users</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature-box p-3">
+							<i class="fas fa-share-alt fa-3x mb-3 text-primary"></i>
+							<h3>Quick Share</h3>
+							<p>Share files instantly with unique download links</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature-box p-3">
+							<i class="fas fa-shield-alt fa-3x mb-3 text-primary"></i>
+							<h3>Secure</h3>
+							<p>Your files are protected and expire after 10 days</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-grid gap-2 col-6 mx-auto">
+					<a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Sign Up Now</a>
+					<a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">Login</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+	.feature-box {
+		border: 1px solid #e9ecef;
+		border-radius: 10px;
+		transition: transform 0.3s ease;
+	}
+
+	.feature-box:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	}
+</style>
+{% endblock %}

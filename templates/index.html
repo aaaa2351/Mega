@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - File Sharing App{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-8 text-center">
+			<h1 class="display-4 mb-4">Welcome to File Sharing</h1>
+			<p class="lead mb-4">
+				Share your files securely with our easy-to-use platform.
+				Get started by creating an account or logging in.
+			</p>
+			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+				{% if not current_user.is_authenticated %}
+				<a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg px-4 gap-3">Sign Up</a>
+				<a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+				{% else %}
+				<a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg px-4">Go to Dashboard</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-5">
+		<div class="col-md-4">
+			<div class="card h-100">
+				<div class="card-body text-center">
+					<i class="fas fa-shield-alt fa-3x mb-3 text-primary"></i>
+					<h3 class="card-title">Secure Sharing</h3>
+					<p class="card-text">Your files are protected with advanced security measures.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card h-100">
+				<div class="card-body text-center">
+					<i class="fas fa-bolt fa-3x mb-3 text-primary"></i>
+					<h3 class="card-title">Fast Upload</h3>
+					<p class="card-text">Upload and share your files quickly and efficiently.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card h-100">
+				<div class="card-body text-center">
+					<i class="fas fa-users fa-3x mb-3 text-primary"></i>
+					<h3 class="card-title">Easy Collaboration</h3>
+					<p class="card-text">Share files with your team or friends effortlessly.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

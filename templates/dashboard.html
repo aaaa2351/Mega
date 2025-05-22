@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - File Sharing App{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12 mb-4">
+		<div class="card shadow">
+			<div class="card-body">
+				<h3 class="card-title">Upload Files</h3>
+				<form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+					<div class="mb-3">
+						<label for="file" class="form-label">Select File</label>
+						<input type="file" class="form-control" id="file" name="file" required>
+						<div class="form-text">
+							{% if current_user.is_premium %}
+							<span class="badge bg-success">Premium User: Unlimited Upload Size</span>
+							{% else %}
+							<span class="badge bg-info">Free User: Max 500MB per file</span>
+							{% endif %}
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-upload"></i> Upload File
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card shadow">
+			<div class="card-body">
+				<h3 class="card-title">Your Files</h3>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>File Name</th>
+								<th>Size</th>
+								<th>Upload Date</th>
+								<th>Expires</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for file in owned_files %}
+							<tr>
+								<td>{{ file.filename }}</td>
+								<td>{{ (file.file_size / 1024 / 1024) | round(2) }} MB</td>
+								<td>{{ file.upload_date.strftime('%Y-%m-%d %H:%M') }}</td>
+								<td>{{ file.expiry_date.strftime('%Y-%m-%d %H:%M') }}</td>
+								<td>
+									<div class="btn-group">
+										<a href="{{ url_for('download_file', file_id=file.id, download=1) }}"
+												class="btn btn-sm btn-primary">
+											<i class="fas fa-download"></i>
+										</a>
+										<a href="{{ url_for('download_file', file_id=file.id) }}"
+												class="btn btn-sm btn-info">
+											<i class="fas fa-share-alt"></i>
+										</a>
+										<button class="btn btn-sm btn-danger delete-btn" data-file-id="{{ file.id }}">
+											<i class="fas fa-trash"></i>
+										</button>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Share File</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label class="form-label">Download Link</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="shareLink" readonly>
+						<button class="btn btn-outline-primary" id="copyLink">
+							<i class="fas fa-copy"></i>
+						</button>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Share via Email</label>
+					<form id="shareEmailForm" class="d-flex gap-2">
+						<input type="email" class="form-control" id="shareEmail" placeholder="Enter email address"
+								required>
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-paper-plane"></i> Send
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+	// Initialize share modal functionality
+	const shareModal=document.getElementById('shareModal');
+	shareModal.addEventListener('show.bs.modal',function(event) {
+		const button=event.relatedTarget;
+		const shareUrl=button.getAttribute('data-share-url');
+		const fileId=button.getAttribute('data-file-id');
+
+		// Set the share link
+		const shareLinkInput=document.getElementById('shareLink');
+		shareLinkInput.value=shareUrl;
+
+		// Store the file ID for email sharing
+		shareModal.setAttribute('data-current-file-id',fileId);
+	});
+
+	// Copy link functionality
+	document.getElementById('copyLink').addEventListener('click',function() {
+		const shareLink=document.getElementById('shareLink');
+		shareLink.select();
+		document.execCommand('copy');
+		this.innerHTML='<i class="fas fa-check"></i>';
+		setTimeout(() => {
+			this.innerHTML='<i class="fas fa-copy"></i>';
+		},2000);
+	});
+
+	// Share via email
+	document.getElementById('shareEmailForm').addEventListener('submit',function(e) {
+		e.preventDefault();
+		const email=document.getElementById('shareEmail').value;
+		const fileId=shareModal.getAttribute('data-current-file-id');
+
+		if(!fileId) {
+			alert('Error: No file selected');
+			return;
+		}
+
+		fetch(`/share/${fileId}`,{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({email: email})
+		})
+			.then(response => response.json())
+			.then(data => {
+				if(data.success) {
+					alert('File shared successfully!');
+					document.getElementById('shareEmail').value='';
+					bootstrap.Modal.getInstance(shareModal).hide();
+				} else {
+					alert('Failed to share file: '+data.error);
+				}
+			})
+			.catch(error => {
+				alert('Error sharing file: '+error);
+			});
+	});
+
+	// Handle modal close
+	shareModal.addEventListener('hidden.bs.modal',function() {
+		document.body.classList.remove('modal-open');
+		document.body.style.overflow='';
+		document.body.style.paddingRight='';
+		const backdrop=document.querySelector('.modal-backdrop');
+		if(backdrop) {
+			backdrop.remove();
+		}
+	});
+
+	// Delete functionality
+	document.querySelectorAll('.delete-btn').forEach(btn => {
+		btn.addEventListener('click',function() {
+			if(confirm('Are you sure you want to delete this file?')) {
+				const fileId=this.dataset.fileId;
+				fetch(`/delete/${fileId}`,{
+					method: 'GET'
+				})
+					.then(response => {
+						if(response.ok) {
+							this.closest('tr').remove();
+						} else {
+							alert('Failed to delete file');
+						}
+					});
+			}
+		});
+	});
+</script>
+{% endblock %}

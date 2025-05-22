@@ -1,0 +1,118 @@
+{
+    "files": [
+        {
+            "filename": "file_sharing_app_with_links_points.zip",
+            "unique_filename": "7cefe9ad-d94b-4e2f-a64a-b44944e7e0b4_file_sharing_app_with_links_points.zip",
+            "file_size": 891,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:08:53.270638",
+            "id": 1
+        },
+        {
+            "filename": "BlueStacks10Installer_10.42.71.1001_native_f6ef4767a679baa311acd40fb8c94932_MDs1LDM7MTUsMTsxNSw0OzE1LDU7MTU_TG9yZHMgTW9iaWxlOiBLaW5nZG9tIFdhcnM.exe",
+            "unique_filename": "8f356551-0f10-44f7-9878-7c7553e10dfd_BlueStacks10Installer_10.42.71.1001_native_f6ef4767a679baa311acd40fb8c94932_MDs1LDM7MTUsMTsxNSw0OzE1LDU7MTU_TG9yZHMgTW9iaWxlOiBLaW5nZG9tIFdhcnM.exe",
+            "file_size": 943728,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:12:26.385483",
+            "upload_date": "2025-05-22T18:12:26.385483",
+            "id": 2
+        },
+        {
+            "filename": "link.txt",
+            "unique_filename": "19b312ce-c6cc-449e-b3c3-f16b3c48443e_link.txt",
+            "file_size": 39,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:17:19.205672",
+            "upload_date": "2025-05-22T18:17:19.205672",
+            "id": 3
+        },
+        {
+            "filename": "CursorUserSetup-x64-0.50.5.exe",
+            "unique_filename": "cb6a3fb2-e699-4dc6-9950-dee52122cb65_CursorUserSetup-x64-0.50.5.exe",
+            "file_size": 116555336,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:20:15.092841",
+            "upload_date": "2025-05-22T18:20:15.092841",
+            "id": 4
+        },
+        {
+            "filename": "user.json",
+            "unique_filename": "cc35e602-9891-41be-9c03-09331056f856_user.json",
+            "file_size": 0,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:26:41.331465",
+            "upload_date": "2025-05-22T18:26:41.331465",
+            "id": 5
+        },
+        {
+            "filename": "upload_2_updated_new.zip",
+            "unique_filename": "15be73f6-4c9c-445d-af70-45879b086542_upload_2_updated_new.zip",
+            "file_size": 7181692,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:30:22.349977",
+            "upload_date": "2025-05-22T18:30:22.349977",
+            "id": 6
+        },
+        {
+            "filename": "MG..apk",
+            "unique_filename": "42a5c9d1-78d3-4dd8-bc15-38d47cf803b4_MG..apk",
+            "file_size": 5987196,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:32:59.361632",
+            "upload_date": "2025-05-22T18:32:59.361632",
+            "id": 7
+        },
+        {
+            "filename": "vv.apk",
+            "unique_filename": "c1f2405d-d360-4629-b614-6e7e2ba66f02_vv.apk",
+            "file_size": 8354634,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:33:45.601974",
+            "upload_date": "2025-05-22T18:33:45.601974",
+            "id": 8
+        },
+        {
+            "filename": "CursorUserSetup-x64-0.50.5.exe",
+            "unique_filename": "4187e9b3-8724-4948-b280-48ed076f9ab7_CursorUserSetup-x64-0.50.5.exe",
+            "file_size": 116555336,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:40:05.891738",
+            "upload_date": "2025-05-22T18:40:05.891738",
+            "id": 9
+        },
+        {
+            "filename": "upload_2_updated_new.zip",
+            "unique_filename": "4802de63-f934-434d-a508-c26dfa3cf519_upload_2_updated_new.zip",
+            "file_size": 7181692,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:42:41.986503",
+            "upload_date": "2025-05-22T18:42:41.986503",
+            "id": 10
+        },
+        {
+            "filename": "link.txt",
+            "unique_filename": "bd94f5b4-800c-4c0e-b397-54352df6f0bf_link.txt",
+            "file_size": 39,
+            "user_id": 1,
+            "shared_by": 1,
+            "expiry_date": "2025-05-29T18:44:17.078764",
+            "upload_date": "2025-05-22T18:44:17.078764",
+            "id": 11
+        }
+    ],
+    "settings": {
+        "max_file_size": 524288000,
+        "expiry_days": 7,
+        "points_per_10mb": 1
+    }
+}

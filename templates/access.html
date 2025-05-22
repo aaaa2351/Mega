@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+	<div class="col-md-6 col-lg-4">
+		<div class="card shadow">
+			<div class="card-body">
+				<h2 class="card-title text-center mb-4">Access Required</h2>
+				<form method="POST">
+					<div class="mb-3">
+						<label for="password" class="form-label">General Access Password</label>
+						<input type="password" class="form-control" id="password" name="password" required>
+					</div>
+					<button type="submit" class="btn btn-primary w-100">Enter</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
